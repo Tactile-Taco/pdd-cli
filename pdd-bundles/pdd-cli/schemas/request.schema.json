@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "request.schema.json",
+  "title": "PublishRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "namespace": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "bundle": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "minProperties": 1
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["protocol", "implementation", "validators", "results", "digest", "signature"]
+    },
+    "validation_resource": {
+      "type": ["string", "null"]
+    }
+  },
+  "required": ["namespace", "name", "version", "bundle", "evidence"]
+}

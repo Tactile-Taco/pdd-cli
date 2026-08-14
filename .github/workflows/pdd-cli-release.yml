@@ -1,0 +1,37 @@
+name: pdd-cli-release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+        with: { python-version: "3.12" }
+      - run: pip install -e . pytest==9.0.3 hypothesis==6.165.0 jsonschema==4.26.0 build
+      - name: Bundle lint
+        run: pdd workflow lint
+      - name: Candidate suite (scrubbed)
+        run: env -i PATH="$PATH" HOME="$(mktemp -d)" LANG="C.UTF-8" PBT_RUNS=200 \
+            pytest implementations/pdd-cli/python-stdlib/tests -q
+      - name: Three-layer Validator Loop (sandbox)
+        run: pdd workflow validate pdd-bundles/pdd-cli --impl implementations/pdd-cli/python-stdlib --sandbox --pbt-runs 200
+      - name: Evidence chain build + verify + staleness
+        run: |
+          pdd workflow evidence build pdd-bundles/pdd-cli --impl implementations/pdd-cli/python-stdlib \
+            --validation-resource "urn:pdd-cli:release:$GITHUB_REF_NAME"
+          pdd workflow evidence verify pdd-bundles/pdd-cli
+          pdd workflow staleness pdd-bundles/pdd-cli
+        env:
+          PDD_EVIDENCE_KEY: ${{ secrets.PDD_EVIDENCE_KEY }}
+      - name: Build wheel + sdist
+        run: python -m build
+      - name: Package evidence
+        run: tar czf pdd-evidence.tar.gz evidence/
+      - name: Attach artifacts to release
+        run: gh release upload "$GITHUB_REF_NAME" dist/*.whl dist/*.tar.gz pdd-evidence.tar.gz --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

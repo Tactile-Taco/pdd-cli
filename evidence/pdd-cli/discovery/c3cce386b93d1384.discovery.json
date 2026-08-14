@@ -1,0 +1,107 @@
+{
+  "files": [
+    "pdd/__init__.py",
+    "pdd/__pycache__/__init__.cpython-314.pyc",
+    "pdd/__pycache__/adapter.cpython-314.pyc",
+    "pdd/__pycache__/cli.cpython-314.pyc",
+    "pdd/__pycache__/config.cpython-314.pyc",
+    "pdd/__pycache__/config_cmd.cpython-314.pyc",
+    "pdd/__pycache__/engine.cpython-314.pyc",
+    "pdd/__pycache__/evidence.cpython-314.pyc",
+    "pdd/__pycache__/lint.cpython-314.pyc",
+    "pdd/__pycache__/lint_validate.cpython-314.pyc",
+    "pdd/adapter.py",
+    "pdd/cli.py",
+    "pdd/config.py",
+    "pdd/config_cmd.py",
+    "pdd/engine.py",
+    "pdd/evidence.py",
+    "pdd/lint.py",
+    "pdd/lint_validate.py",
+    "pdd/registry/__init__.py",
+    "pdd/registry/__pycache__/__init__.cpython-314.pyc",
+    "pdd/registry/__pycache__/client.cpython-314.pyc",
+    "pdd/registry/__pycache__/index.cpython-314.pyc",
+    "pdd/registry/__pycache__/inspect.cpython-314.pyc",
+    "pdd/registry/__pycache__/publish.cpython-314.pyc",
+    "pdd/registry/__pycache__/search.cpython-314.pyc",
+    "pdd/registry/__pycache__/verify.cpython-314.pyc",
+    "pdd/registry/client.py",
+    "pdd/registry/index.py",
+    "pdd/registry/inspect.py",
+    "pdd/registry/publish.py",
+    "pdd/registry/search.py",
+    "pdd/registry/verify.py",
+    "pdd/templates/ambiguity-log.md",
+    "pdd/templates/capability-manifest.yaml",
+    "pdd/templates/evidence-requirements.yaml",
+    "pdd/templates/invariants/behavioral.yaml",
+    "pdd/templates/invariants/operational.yaml",
+    "pdd/templates/invariants/structural.yaml",
+    "pdd/templates/protocol.yaml",
+    "pdd/templates/schemas/request.schema.json",
+    "pdd/templates/schemas/response.schema.json",
+    "pdd/templates/validators/validation-plan.yaml",
+    "pdd/templates/validators/validator-set.yaml",
+    "pdd/workflow/__init__.py",
+    "pdd/workflow/__pycache__/__init__.cpython-314.pyc",
+    "pdd/workflow/__pycache__/evidence.cpython-314.pyc",
+    "pdd/workflow/__pycache__/init.cpython-314.pyc",
+    "pdd/workflow/__pycache__/lint.cpython-314.pyc",
+    "pdd/workflow/__pycache__/run.cpython-314.pyc",
+    "pdd/workflow/__pycache__/seal.cpython-314.pyc",
+    "pdd/workflow/__pycache__/staleness.cpython-314.pyc",
+    "pdd/workflow/__pycache__/status.cpython-314.pyc",
+    "pdd/workflow/__pycache__/validate.cpython-314.pyc",
+    "pdd/workflow/evidence.py",
+    "pdd/workflow/init.py",
+    "pdd/workflow/lint.py",
+    "pdd/workflow/run.py",
+    "pdd/workflow/seal.py",
+    "pdd/workflow/staleness.py",
+    "pdd/workflow/status.py",
+    "pdd/workflow/validate.py"
+  ],
+  "dependencies": [
+    "pyyaml==6.0.3",
+    "jsonschema==4.26.0"
+  ],
+  "invariant_lineage": {
+    "S-001": [
+      "tests/test_publish_contract.py"
+    ],
+    "S-002": [
+      "tests/test_dispatch.py"
+    ],
+    "B-001": [
+      "tests/test_dispatch.py",
+      "tests/test_property.py"
+    ],
+    "B-002": [
+      "tests/test_evidence.py",
+      "tests/test_dispatch.py"
+    ],
+    "B-003": [
+      "tests/test_staleness.py"
+    ],
+    "B-004": [
+      "tests/test_workflow_offline.py"
+    ],
+    "O-001": [
+      "pdd/registry/client.py"
+    ],
+    "O-002": [
+      "pdd/registry/client.py"
+    ],
+    "O-003": [
+      "capability-manifest.yaml"
+    ],
+    "O-004": [
+      "capability-manifest.yaml"
+    ],
+    "O-005": [
+      "benchmark"
+    ]
+  },
+  "known_limitations": []
+}

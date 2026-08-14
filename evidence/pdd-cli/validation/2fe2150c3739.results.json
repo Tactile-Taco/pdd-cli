@@ -1,0 +1,107 @@
+{
+  "protocol": {
+    "name": "pdd-cli",
+    "version": "1.0.0",
+    "bundle_digest": "sha256:11cac937fdb2e6d799984b1431f87380e1888c9f15dbdcc8d13d1ddb97a38652"
+  },
+  "candidate_digest": "sha256:2fe2150c3739422eed301287e317a1c84140ea4e0edc95bb47f1f23a2f801adc",
+  "validators": [
+    {
+      "id": "schema-validator",
+      "version": "1.0.0",
+      "layer": "structural"
+    },
+    {
+      "id": "contract-runner",
+      "version": "1.0.0",
+      "layer": "structural"
+    },
+    {
+      "id": "property-runner",
+      "version": "1.0.0",
+      "layer": "behavioral"
+    },
+    {
+      "id": "mutation-sanity",
+      "version": "1.0.0",
+      "layer": "behavioral"
+    },
+    {
+      "id": "import-scanner",
+      "version": "1.0.0",
+      "layer": "operational"
+    },
+    {
+      "id": "capability-monitor",
+      "version": "1.0.0",
+      "layer": "operational"
+    },
+    {
+      "id": "benchmark-runner",
+      "version": "1.0.0",
+      "layer": "operational"
+    }
+  ],
+  "results": [
+    {
+      "invariant_id": "S-001",
+      "layer": "structural",
+      "outcome": "pass",
+      "evidence": "compile ok for 27 module(s)"
+    },
+    {
+      "invariant_id": "S-002",
+      "layer": "structural",
+      "outcome": "pass",
+      "evidence": "error-kind markers ['usage error'] referenced in candidate source"
+    },
+    {
+      "invariant_id": "S-003",
+      "layer": "structural",
+      "outcome": "pass",
+      "evidence": "no schema history yet; v1.0.0 baseline (schema-diff n/a)"
+    },
+    {
+      "invariant_id": "O-003",
+      "layer": "operational",
+      "outcome": "fail",
+      "evidence": "imports=['__future__', 'ast', 'cli', 'engine', 'hashlib', 'hmac', 'json', 'jsonschema', 'lint', 'os', 'pathlib', 'pdd', 're', 'registry', 'shutil', 'staleness', 'statistics', 'subprocess', 'sys', 'tarfile', 'tempfile', 'time', 'urllib', 'workflow', 'yaml']; unapproved=['pdd', 'registry', 'workflow']"
+    },
+    {
+      "invariant_id": "O-001,O-002,O-004",
+      "layer": "operational",
+      "outcome": "fail",
+      "evidence": "forbidden signals=['call __import__']"
+    },
+    {
+      "invariant_id": "B-001,B-002,B-003,B-004",
+      "layer": "behavioral",
+      "outcome": "fail",
+      "evidence": "pytest failed: 2 errors in 0.65s"
+    },
+    {
+      "invariant_id": "B-001",
+      "layer": "behavioral",
+      "outcome": "mutation-suspect",
+      "evidence": "mutant run exited 2 (expect exit 1 = assertion failure); mutant definition or filter is broken \u2014 /test_dispatch.py\nERROR tests/test_property.py\n!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!!\n36 deselected, 2 errors in 0.25s"
+    },
+    {
+      "invariant_id": "O-001,O-002",
+      "layer": "operational",
+      "outcome": "skip",
+      "evidence": "sandbox not requested or docker not found; static scan only"
+    },
+    {
+      "invariant_id": "O-005",
+      "layer": "operational",
+      "outcome": "observe",
+      "evidence": "benchmark failed: Traceback (most recent call last):\n  File \"<string>\", line 3, in <module>\n    from pdd import Adapter\nImportError: canno"
+    }
+  ],
+  "verdict": "reject",
+  "verdict_reason": "3 must-invariant failure(s): O-003, O-001,O-002,O-004, B-001,B-002,B-003,B-004",
+  "environment": {
+    "runtime": "3.14.7",
+    "os": "linux"
+  }
+}

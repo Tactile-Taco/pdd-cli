@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pdd-cli"
+version = "0.1.0"
+description = "Protocol-Driven Development CLI: local workflow loop + pdd-registry client"
+requires-python = ">=3.10"
+dependencies = [
+    "pyyaml==6.0.3",
+    "jsonschema==4.26.0",
+]
+
+[project.scripts]
+pdd = "pdd.cli:main"
+
+# The candidate package IS the package: the validated implementation lives at
+# implementations/pdd-cli/python-stdlib/pdd/ (single source of truth — what the
+# Validator Loop attests is exactly what pip installs).
+[tool.setuptools]
+package-dir = {"" = "implementations/pdd-cli/python-stdlib"}
+packages = ["pdd", "pdd.workflow", "pdd.registry"]
+
+[tool.setuptools.package-data]
+pdd = ["templates/**/*"]

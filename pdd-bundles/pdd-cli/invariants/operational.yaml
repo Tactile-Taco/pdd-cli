@@ -1,0 +1,47 @@
+operational_invariants:
+  - id: O-001
+    statement: >
+      The implementation must not import socket/requests or spawn background
+      work (threads, timers, detached processes); networking happens only via
+      the stdlib urllib channel in the registry namespace.
+    severity: must
+    infra_assumption: AST import/call scan; docker sandbox (--network none, --read-only)
+    validation:
+      - import_scan
+      - sandbox_policy_check
+
+  - id: O-002
+    statement: >
+      Candidate execution inside the sandbox must perform no filesystem writes
+      and no outbound network.
+    severity: must
+    infra_assumption: docker --network none --read-only sandbox
+    validation:
+      - sandbox_policy_check
+
+  - id: O-003
+    statement: >
+      Imports must stay within the dependency allowlist declared in
+      capability-manifest.yaml (stdlib + yaml + jsonschema + urllib); any
+      other third-party import is a violation.
+    severity: must
+    validation:
+      - import_scan
+
+  - id: O-004
+    statement: >
+      The implementation must not call the forbidden functions or attributes
+      (eval, exec, __import__, input; system, popen, call, Popen, connect,
+      sendto, sendall).
+    severity: must
+    validation:
+      - import_scan
+
+  - id: O-005
+    statement: >
+      Performance budget (advisory): p95 command dispatch latency under the
+      benchmark workload must remain below 500 ms.
+    severity: should
+    infra_assumption: benchmark harness; excess recorded as observation, not admission failure
+    validation:
+      - benchmark

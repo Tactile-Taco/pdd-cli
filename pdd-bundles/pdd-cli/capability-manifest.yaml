@@ -1,0 +1,77 @@
+capabilities:
+  network:
+    outbound_allowed: true          # registry namespace only (urllib); B-004 confines it
+    allowed_destinations:
+      - "<configured registry endpoint>"
+  filesystem:
+    read_allowed: true
+    write_allowed: true             # evidence/ledger + config file only
+    allowed_paths:
+      - "<workspace>/evidence"
+      - "<config dir>/config.json"
+  database:
+    allowed: false
+  secrets:
+    allowed_environment_variables:
+      - PDD_EVIDENCE_KEY
+      - PDD_PUBLISH_TOKEN
+      - PDD_REGISTRY
+  resources:
+    max_latency_ms: 500             # severity: should (advisory budget)
+    max_memory_mb: 64               # severity: should (advisory budget)
+    max_cpu_ms: null
+    max_concurrency: 1
+  background_work:
+    allowed: false
+  dependencies:
+    # O-003/O-004 policy: the engine's static scans enforce these sets.
+    allowlist:
+      - abc
+      - ast
+      - collections
+      - dataclasses
+      - datetime
+      - decimal
+      - enum
+      - functools
+      - hashlib
+      - hmac
+      - itertools
+      - json
+      - math
+      - os
+      - pathlib
+      - re
+      - shutil
+      - statistics
+      - subprocess
+      - sys
+      - tarfile
+      - tempfile
+      - time
+      - typing
+      - urllib
+      - uuid
+      - yaml
+      - jsonschema
+    forbidden_modules:
+      - socket
+      - requests
+      - threading
+      - multiprocessing
+    forbidden_calls:
+      - eval
+      - exec
+      - __import__
+      - input
+    forbidden_attrs:
+      - system
+      - popen
+      - call
+      - Popen
+      - connect
+      - sendto
+      - sendall
+  telemetry:
+    required_fields:
+      - protocol_version

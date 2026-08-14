@@ -1,0 +1,47 @@
+protocol:
+  name: pdd-cli
+  version: 1.0.0
+  status: sealed
+  namespace: tactile-taco
+  tags: [cli, workflow, registry, devtools]
+
+purpose: >
+  The pdd command-line interface: a local Protocol-Driven Development loop
+  (init, lint, seal, validate, evidence, run, staleness, status) operating on
+  protocol artifact directories, and an HTTP client for a pdd-registry
+  instance (search, index, inspect, verify, publish). Deterministic command
+  dispatch and registry-endpoint resolution; fail-closed on missing secrets
+  and unreachable registries.
+
+boundary:
+  in_scope:
+    - Command dispatch across the workflow (local) and registry (HTTP) namespaces
+    - "Registry endpoint resolution: $PDD_REGISTRY > config file > default"
+    - "The local validation loop: lint, seal, validate (three-layer S/B/O engine),
+      evidence build/verify/package, sandboxed run, staleness, status"
+    - "The registry HTTP client: search, index, inspect, verify, publish"
+    - Evidence chain + ledger primitives (HMAC-signed, SHA-256 chained)
+  out_of_scope:
+    - "The pdd-registry server itself (transport, auth, storage) — governed by its
+      own protocol bundle"
+    - "PDD methodology and skills (authoring guidance, negotiation, audit) — humans
+      and skills, not CLI behavior"
+    - The content of user-authored protocol bundles
+
+handshakes:
+  request_schema: schemas/request.schema.json
+  response_schema: schemas/response.schema.json
+
+depends_on: []
+provides:
+  pdd-cli.workflow-loop: schemas/request.schema.json
+  pdd-cli.registry-client: schemas/response.schema.json
+
+invariants:
+  structural: invariants/structural.yaml
+  behavioral: invariants/behavioral.yaml
+  operational: invariants/operational.yaml
+
+capabilities: capability-manifest.yaml
+validators: validators/validation-plan.yaml
+evidence: evidence-requirements.yaml

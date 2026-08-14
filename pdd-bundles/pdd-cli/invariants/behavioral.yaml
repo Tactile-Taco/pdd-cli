@@ -1,0 +1,41 @@
+behavioral_invariants:
+  - id: B-001
+    statement: >
+      Deterministic dispatch and pure config resolution: the same argv and
+      environment must produce the same exit code and behavior (no hidden
+      mutable state); registry endpoint resolution order is $PDD_REGISTRY >
+      config file > baked default.
+    severity: must
+    property: "f(argv, env) depends only on the effective configuration"
+    validation:
+      - property_based_test
+
+  - id: B-002
+    statement: >
+      Fail closed on secrets: evidence sign/verify without PDD_EVIDENCE_KEY
+      exits nonzero and refuses to claim verification; the evidence key and
+      the publish token never appear in argv or command output — they are read
+      from the environment only.
+    severity: must
+    validation:
+      - contract_tests
+
+  - id: B-003
+    statement: >
+      Staleness gate: `pdd workflow staleness` exits 0 iff the latest
+      admission evidence attests the current on-disk bundle digest; any bundle
+      change without re-validation and re-attestation exits 1.
+    severity: must
+    validation:
+      - replay_test
+      - contract_tests
+
+  - id: B-004
+    statement: >
+      Workflow (local) commands must not perform network I/O: lint, seal,
+      validate, evidence, run, staleness, and status never open a network
+      connection; network usage is confined to the registry namespace.
+    severity: must
+    validation:
+      - contract_tests
+      - import_scan
