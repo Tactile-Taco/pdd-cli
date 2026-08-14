@@ -1,0 +1,107 @@
+{
+  "protocol": {
+    "name": "pdd-cli",
+    "version": "1.1.0",
+    "bundle_digest": "sha256:1e5cd884b6df432b4055a1392e58a2d9fee4e197cd31084e8b001716226c3b8e"
+  },
+  "candidate_digest": "sha256:3cd4683b10debb5e9e8d88dd5d60685fcda9939aac17cc23a6687efcd3d14474",
+  "validators": [
+    {
+      "id": "schema-validator",
+      "version": "1.0.0",
+      "layer": "structural"
+    },
+    {
+      "id": "contract-runner",
+      "version": "1.0.0",
+      "layer": "structural"
+    },
+    {
+      "id": "property-runner",
+      "version": "1.0.0",
+      "layer": "behavioral"
+    },
+    {
+      "id": "mutation-sanity",
+      "version": "1.0.0",
+      "layer": "behavioral"
+    },
+    {
+      "id": "import-scanner",
+      "version": "1.0.0",
+      "layer": "operational"
+    },
+    {
+      "id": "capability-monitor",
+      "version": "1.0.0",
+      "layer": "operational"
+    },
+    {
+      "id": "benchmark-runner",
+      "version": "1.0.0",
+      "layer": "operational"
+    }
+  ],
+  "results": [
+    {
+      "invariant_id": "S-001",
+      "layer": "structural",
+      "outcome": "pass",
+      "evidence": "compile ok for 26 module(s)"
+    },
+    {
+      "invariant_id": "S-002",
+      "layer": "structural",
+      "outcome": "pass",
+      "evidence": "error-kind markers ['usage error'] referenced in candidate source"
+    },
+    {
+      "invariant_id": "S-003",
+      "layer": "structural",
+      "outcome": "pass",
+      "evidence": "no schema history yet; v1.0.0 baseline (schema-diff n/a)"
+    },
+    {
+      "invariant_id": "O-003",
+      "layer": "operational",
+      "outcome": "pass",
+      "evidence": "imports=['__future__', 'adapter', 'ast', 'cli', 'engine', 'hashlib', 'hmac', 'json', 'jsonschema', 'lint', 'os', 'pathlib', 'pdd', 're', 'registry', 'shutil', 'staleness', 'statistics', 'subprocess', 'sys', 'tarfile', 'tempfile', 'time', 'urllib', 'workflow', 'yaml']; unapproved=[]"
+    },
+    {
+      "invariant_id": "O-001,O-002,O-004",
+      "layer": "operational",
+      "outcome": "pass",
+      "evidence": "forbidden signals=[]"
+    },
+    {
+      "invariant_id": "B-001,B-002,B-003,B-004",
+      "layer": "behavioral",
+      "outcome": "pass",
+      "evidence": "pytest: 49 passed in 1.30s"
+    },
+    {
+      "invariant_id": "B-001",
+      "layer": "behavioral",
+      "outcome": "pass",
+      "evidence": "mutant rejected by config_resolution (exit 1, assertion failure) \u2014 property is not vacuous"
+    },
+    {
+      "invariant_id": "O-001,O-002",
+      "layer": "operational",
+      "outcome": "skip",
+      "evidence": "sandbox not requested or docker not found; static scan only"
+    },
+    {
+      "invariant_id": "O-005",
+      "layer": "operational",
+      "outcome": "observe",
+      "evidence": "p95=0.03ms over 100 calls (budget 500ms, should-tier)"
+    }
+  ],
+  "verdict": "admit",
+  "verdict_reason": "all must invariants pass; no mutation-suspect flags",
+  "environment": {
+    "runtime": "3.14.7",
+    "os": "linux"
+  }
+}

@@ -12,7 +12,10 @@ import json
 import os
 from pathlib import Path
 
-DEFAULT_REGISTRY = "https://pdd-registry.staging.tail4904d2.ts.net"
+# Tailnet node name: MagicDNS resolves it on the tailnet and it carries a
+# publicly-trusted tailscale cert (the ingress no longer uses the Traefik
+# default cert or a non-resolving virtual hostname).
+DEFAULT_REGISTRY = "https://staging.tail4904d2.ts.net"
 
 
 def config_dir() -> Path:
