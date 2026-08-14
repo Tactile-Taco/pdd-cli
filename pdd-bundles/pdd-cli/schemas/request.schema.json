@@ -31,6 +31,10 @@
     },
     "validation_resource": {
       "type": ["string", "null"]
+    },
+    "discovery": {
+      "description": "Discovery-log content whose digest is bound in the signed evidence provenance (enables the registry to hold a verifiable copy).",
+      "type": ["object", "null"]
     }
   },
   "required": ["namespace", "name", "version", "bundle", "evidence"]

@@ -32,6 +32,10 @@ jobs:
         run: python -m build
       - name: Package evidence
         run: tar czf pdd-evidence.tar.gz evidence/
+      - name: Create release (idempotent)
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Attach artifacts to release
         run: gh release upload "$GITHUB_REF_NAME" dist/*.whl dist/*.tar.gz pdd-evidence.tar.gz --clobber
         env:

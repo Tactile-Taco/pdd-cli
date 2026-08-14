@@ -19,8 +19,13 @@ from .. import engine
 from . import client
 
 
-def build_payload(bundle_dir: Path, evidence: dict) -> dict:
-    """Construct the POST /publish request body (S-001 schema conformance)."""
+def build_payload(bundle_dir: Path, evidence: dict, discovery: dict | None = None) -> dict:
+    """Construct the POST /publish request body (S-001 schema conformance).
+
+    discovery is the discovery-log content whose digest is bound in the signed
+    evidence provenance; the registry verifies the binding before storing, so
+    the published copy keeps the discovery binding (/evidence/verify passes).
+    """
     proto = engine.load_yaml(bundle_dir / "protocol.yaml") or {}
     protocol = proto.get("protocol") or proto
     name = bundle_dir.name
@@ -39,7 +44,23 @@ def build_payload(bundle_dir: Path, evidence: dict) -> dict:
         "bundle": bundle_files,
         "evidence": evidence,
         "validation_resource": evidence.get("validation_resource"),
+        "discovery": discovery,
     }
+
+
+def _discovery_for(evidence_file: Path) -> dict | None:
+    """Discovery content paired with the admission evidence file: the CLI
+    layout names both by the evidence-digest prefix
+    (evidence/<name>/admission/<prefix>.evidence.json +
+    evidence/<name>/discovery/<prefix>.discovery.json)."""
+    prefix = evidence_file.name[:16]
+    disc = evidence_file.parent.parent / "discovery" / f"{prefix}.discovery.json"
+    if not disc.exists():
+        return None
+    try:
+        return json.loads(disc.read_text())
+    except (OSError, ValueError):
+        return None
 
 
 def run(argv: list[str]) -> int:
@@ -74,7 +95,7 @@ def run(argv: list[str]) -> int:
             return 1
 
     try:
-        payload = build_payload(bundle_dir, evidence)
+        payload = build_payload(bundle_dir, evidence, _discovery_for(evidence_file))
     except ValueError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1

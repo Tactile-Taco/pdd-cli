@@ -25,6 +25,13 @@
   sandbox smoke exercises the adapter (config show) so the stdlib-only
   sandbox image needs no third-party deps.
 
+- **Discovery content travels with the submission (1.1.0).** The signed
+  evidence object binds the discovery-log digest but does not embed the log
+  (byte-compatible with the registry chain); the publish payload carries the
+  discovery content as a top-level optional field, and the registry verifies
+  its digest against the signed provenance before storing it — so published
+  bundles keep the discovery binding (/evidence/verify passes).
+
 ## Open Questions
 
 - Should `pdd registry publish` support remote validation submission (the

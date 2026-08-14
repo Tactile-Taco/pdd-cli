@@ -30,6 +30,7 @@ REQUEST_SCHEMA = {
                      "required": ["protocol", "implementation", "validators",
                                   "results", "digest", "signature"]},
         "validation_resource": {"type": ["string", "null"]},
+        "discovery": {"type": ["object", "null"]},
     },
     "required": ["namespace", "name", "version", "bundle", "evidence"],
 }
@@ -53,10 +54,13 @@ def test_publish_payload_conforms_to_request_schema(tmp_path, key):
     (bundle / "protocol.yaml").write_text(
         "protocol:\n  name: demo\n  version: 1.0.0\n  status: sealed\n  namespace: test-ns\n")
     (bundle / "invariants").mkdir()
-    payload = publish.build_payload(bundle, _evidence())
+    discovery = {"files": ["protocol.yaml"], "dependencies": [], "invariant_lineage": {},
+                 "known_limitations": []}
+    payload = publish.build_payload(bundle, _evidence(), discovery)
     jsonschema.validate(payload, REQUEST_SCHEMA)
     assert payload["namespace"] == "test-ns"
     assert payload["name"] == "demo"
+    assert payload["discovery"] == discovery
     assert "protocol.yaml" in payload["bundle"]
 
 
