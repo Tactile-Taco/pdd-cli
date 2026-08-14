@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "bundle_digest": "sha256:11cac937fdb2e6d799984b1431f87380e1888c9f15dbdcc8d13d1ddb97a38652"
   },
-  "candidate_digest": "sha256:c3cce386b93d13849a8fe6aa6949f9eaf9baa8c805073a9270c717fbeb9be4ed",
+  "candidate_digest": "sha256:9a09044ad645068016d57db55cd9e28bb67089e29ceb53cacff61527be548d7f",
   "validators": [
     {
       "id": "schema-validator",
@@ -77,7 +77,7 @@
       "invariant_id": "B-001,B-002,B-003,B-004",
       "layer": "behavioral",
       "outcome": "pass",
-      "evidence": "pytest: 49 passed in 1.26s"
+      "evidence": "pytest: 49 passed in 1.29s"
     },
     {
       "invariant_id": "B-001",

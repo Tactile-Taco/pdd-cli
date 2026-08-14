@@ -95,6 +95,10 @@ def build(argv: list[str]) -> int:
     # Idempotency: an admission that is already attested keeps its attested
     # evidence snapshot (provenance time is part of the signed body, so a
     # rebuild would overwrite the attested object and force a new block).
+    # EXCEPT on bundle drift: if the on-disk bundle digest differs from the
+    # attested one, the evidence is stale — fall through and rebuild so the
+    # new evidence attests the CURRENT bundle (append-only: the old block
+    # stays in the ledger as history).
     ledger = ev_root / name / "runtime-ledger.jsonl"
     if ledger.exists():
         existing = [json.loads(line) for line in ledger.read_text().splitlines() if line.strip()]
@@ -114,9 +118,15 @@ def build(argv: list[str]) -> int:
                 print(f"FAIL: attested evidence file differs from the ledger "
                       f"(on disk {on_disk} != attested {attested_digest}) — re-run validate, then rebuild")
                 return 1
-            print(f"admission {impl_digest.split(':')[1][:16]} already attested and consistent; "
-                  f"evidence snapshot preserved (re-verify with `pdd workflow evidence verify`)")
-            return 0
+            current_bundle = engine.bundle_digest(bundle)
+            attested_bundle = (json.loads(adm_file.read_text())
+                               .get("protocol", {}).get("bundle_digest"))
+            if attested_bundle == current_bundle:
+                print(f"admission {impl_digest.split(':')[1][:16]} already attested and consistent; "
+                      f"evidence snapshot preserved (re-verify with `pdd workflow evidence verify`)")
+                return 0
+            print(f"bundle digest drifted since attestation "
+                  f"({attested_bundle} -> {current_bundle}); rebuilding admission evidence")
 
     evidence = {
         "protocol": {"name": name, "version": version,
