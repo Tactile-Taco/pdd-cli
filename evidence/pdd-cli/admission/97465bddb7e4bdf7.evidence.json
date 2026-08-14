@@ -5,7 +5,7 @@
     "bundle_digest": "sha256:11cac937fdb2e6d799984b1431f87380e1888c9f15dbdcc8d13d1ddb97a38652"
   },
   "implementation": {
-    "artifact_digest": "sha256:c3cce386b93d13849a8fe6aa6949f9eaf9baa8c805073a9270c717fbeb9be4ed"
+    "artifact_digest": "sha256:97465bddb7e4bdf7db8068802b6442c0b9feac29da95a5f79731dfcd368fd6e5"
   },
   "validators": [
     {
@@ -79,7 +79,7 @@
       "invariant_id": "B-001,B-002,B-003,B-004",
       "layer": "behavioral",
       "outcome": "pass",
-      "evidence": "pytest: 49 passed in 1.26s"
+      "evidence": "pytest: 49 passed in 1.28s"
     },
     {
       "invariant_id": "B-001",
@@ -97,15 +97,15 @@
       "invariant_id": "O-005",
       "layer": "operational",
       "outcome": "observe",
-      "evidence": "p95=0.03ms over 100 calls (budget 500ms, should-tier)"
+      "evidence": "p95=0.05ms over 100 calls (budget 500ms, should-tier)"
     }
   ],
   "provenance": {
-    "time": "2026-08-14T00:54:42Z",
+    "time": "2026-08-14T01:12:30Z",
     "manifest": "pdd-cli/python-stdlib",
     "discovery_digest": "sha256:4e1e3e7182e624189360de79a8b7b76d0f46407dec36552ca837667f45b32064",
     "validation_resource": "urn:pdd-cli:validation:1.0.0:local"
   },
-  "digest": "sha256:9c1ed0770db21ce0046623a2384331e96348b1b89d26801b8eee02a944fa0634",
-  "signature": "hmac-sha256:6c4d401292576bf9e3626f9f97aeccadb6f5da1cf8ebad0bef7871035bde2793"
+  "digest": "sha256:c36054816455ff61ef8d9d02ed5c4d6efd542291076f5eb5d49d978b077a3d39",
+  "signature": "hmac-sha256:2f706f200e242546d25094fd45967681020bb74f0de054d2897c6a7df8e6cdc0"
 }

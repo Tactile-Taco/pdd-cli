@@ -83,7 +83,11 @@ def bundle_digest(bundle_dir: Path) -> str:
 def dir_digest(d: Path) -> str:
     h = hashlib.sha256()
     for p in sorted(d.rglob("*")):
-        if p.is_file():
+        # __pycache__/.pyc is interpreter-generated, not candidate source —
+        # including it would make the digest depend on which modules the
+        # validating/building process happened to import (a real bug: the
+        # digest drifted between `pdd workflow validate` and `evidence build`).
+        if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc":
             h.update(p.relative_to(d).as_posix().encode())
             h.update(p.read_bytes())
     return "sha256:" + h.hexdigest()
