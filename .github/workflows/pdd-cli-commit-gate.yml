@@ -18,7 +18,8 @@ jobs:
       # make test runs the candidate suite under env -i (the signing key is
       # stripped there), then the loop needs the key for evidence steps.
       - name: Candidate suite (scrubbed)
-        run: env -i PATH="$PATH" HOME="$(mktemp -d)" LANG="C.UTF-8" PBT_RUNS=200 \
+        run: |
+          env -i PATH="$PATH" HOME="$(mktemp -d)" LANG="C.UTF-8" PBT_RUNS=200 \
             pytest implementations/pdd-cli/python-stdlib/tests -q
       - name: Three-layer Validator Loop (sandbox)
         run: pdd workflow validate pdd-bundles/pdd-cli --impl implementations/pdd-cli/python-stdlib --sandbox --pbt-runs 200
