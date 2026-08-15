@@ -17,6 +17,9 @@ def dispatch(argv: list[str]) -> int:
     if cmd == "index":
         from . import index
         return index.run(rest)
+    if cmd == "implementations":
+        from . import implementations
+        return implementations.run(rest)
     if cmd == "inspect":
         from . import inspect
         return inspect.run(rest)

@@ -18,17 +18,21 @@ USAGE = """pdd — Protocol-Driven Development CLI
 
   pdd workflow init <dir>                    scaffold a bundle from templates
   pdd workflow lint [bundle-dir]             hardened bundle linter
+  pdd workflow lint-candidate <impl-dir>     declared-only implementation packaging gate
   pdd workflow seal <bundle-dir>             seal a bundle (lint must pass)
   pdd workflow validate <bundle-dir> --impl <impl-dir> [--sandbox] [--pbt-runs N]
   pdd workflow evidence build <bundle-dir> --impl <impl-dir> [--validation-resource URL]
   pdd workflow evidence verify <bundle-dir>
   pdd workflow evidence package <bundle-dir> -o <out-file>
   pdd workflow run <bundle-dir> --impl <impl-dir> [--sandbox]
+  pdd workflow assembly verify <lock> [--bundles root]     structural + bundle-aware assembly checks
+  pdd workflow assembly derive <lock> --protocols P1,P2 [-o out] [--bundles root]
   pdd workflow staleness [bundle-dir...]
   pdd workflow status [workspace-dir]
 
   pdd registry search <query> [--registry URL]
   pdd registry index [--registry URL]
+  pdd registry implementations [--protocol N] [--host-class C] [--affinity A] [--evidence pass|any] [--registry URL]
   pdd registry inspect <bundle> [--invariants|--capabilities|--ledger] [--registry URL]
   pdd registry verify <bundle> [--registry URL]
   pdd registry publish <bundle-dir> --evidence <file> [--registry URL] [--token-env NAME]

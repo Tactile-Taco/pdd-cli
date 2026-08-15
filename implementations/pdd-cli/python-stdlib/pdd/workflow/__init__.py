@@ -17,6 +17,9 @@ def dispatch(argv: list[str]) -> int:
     if cmd == "lint":
         from . import lint
         return lint.run(rest)
+    if cmd == "lint-candidate":
+        from . import lint_candidate
+        return lint_candidate.run(rest)
     if cmd == "seal":
         from . import seal
         return seal.run(rest)
@@ -33,6 +36,13 @@ def dispatch(argv: list[str]) -> int:
     if cmd == "run":
         from . import run
         return run.run(rest)
+    if cmd == "assembly":
+        if not rest:
+            print("usage error: pdd workflow assembly requires a subcommand "
+                  "(verify|derive)", file=sys.stderr)
+            return 2
+        from . import assembly
+        return assembly.dispatch(rest)
     if cmd == "staleness":
         from . import staleness
         return staleness.run(rest)

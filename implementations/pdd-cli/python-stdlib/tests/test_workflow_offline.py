@@ -30,6 +30,7 @@ LOCAL_MODULES = [
     "workflow/seal.py",
     "workflow/validate.py",
     "workflow/evidence.py",
+    "workflow/assembly.py",
     "workflow/run.py",
     "workflow/staleness.py",
     "workflow/status.py",
